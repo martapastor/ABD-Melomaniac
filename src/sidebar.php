@@ -47,23 +47,6 @@
                     </li>
                 </ul>
             </div>
-
-            <div class = "row">
-                <img class = "logo small-logo" alt="Melomaniac Logo" src="../img/logo.png">
-            </div>
-
-            <div class = "row">
-                <div class = "alert alert-success alert-dismissable">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    Welcome back, <?php $_GET['username'] ?>!
-                </div>
-            </div>
-
-            <div class = "row">
-                <div class = "inbox">
-                    <h2>Tablón de anuncios <i class="icon glyphicon glyphicon-help"></i></h2>
-                </div>
-            </div>
         </div>
     </body>
 </html>
