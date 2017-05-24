@@ -42,41 +42,63 @@
             </div>
 
             <div class = "row">
-        		<form action="signup_submit.php" method="POST" id="form-signup">
+        		<form action="queries/signup.php" method="POST" id="form-signup">
                     <h2>Welcome to Melomaniac!</h2>
 
                     <div class="input-group">
-                      <span class="input-group-addon"><i class="icon glyphicon glyphicon-font"></i></span>
+                      <span class="input-group-addon"><i class="small-icon glyphicon glyphicon-font"></i></span>
                       <input type="text" placeholder="Name" name="name" id="name">
                     </div>
                     <br>
 
                     <div class="input-group">
-                      <span class="input-group-addon"><i class="icon glyphicon glyphicon-envelope"></i></span>
+                      <span class="input-group-addon"><i class="small-icon glyphicon glyphicon-envelope"></i></span>
                       <input type="text" placeholder="Email" name="email" id="email">
                     </div>
                     <br>
 
                     <div class="input-group">
-                      <span class="input-group-addon"><i class="icon glyphicon glyphicon-user"></i></span>
+                      <span class="input-group-addon"><i class="small-icon glyphicon glyphicon-user"></i></span>
                       <input type="text" placeholder="Username" name="username" id="username">
                     </div>
                     <br>
 
                     <div class="input-group">
-                      <span class="input-group-addon"><i class="icon glyphicon glyphicon-lock"></i></span>
+                      <span class="input-group-addon"><i class="small-icon glyphicon glyphicon-lock"></i></span>
                       <input type="password" placeholder="Password" name="password" id="password">
                     </div>
                     <br>
 
                     <div class="input-group">
-                      <span class="input-group-addon"><i class="icon glyphicon glyphicon-lock"></i></span>
+                      <span class="input-group-addon"><i class="small-icon glyphicon glyphicon-lock"></i></span>
                       <input type="password" placeholder="Confirm password" name="confirmpassword" id="confirmpassword">
+                    </div>
+                    <br>
+
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="small-icon glyphicon glyphicon-calendar"></i></span>
+                      <input type="date" onfocus="(this.type='date')" name="age" id="age">
+                    </div>
+                    <br>
+
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="small-icon glyphicon glyphicon-lock"></i></span>
+                      <select name="music">
+                          <option value="rock">Rock</option>
+                          <option value="pop">Pop</option>
+                          <option value="house">House</option>
+                          <option value="indie">Indie</option>
+                          <option value="metal">Metal</option>
+                          <option value="reggae">Reggae</option>
+                          <option value="classical">Clásica</option>
+                          <option value="rap">Rap</option>
+                      </select>
                     </div>
                     <br>
 
                     <input type="submit" value="Sign Up">
                     <br>
+                    <p align="center">Do you already have an account?<br><a class="login" href="login.php">Log In</a></p>
                 </form>
             </div>
         </div>

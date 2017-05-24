@@ -4,18 +4,20 @@
     $email = $_POST['email'];
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $age = $_POST['age'];
+    $music = $_POST['music'];
 
     // Abrimos la base de datos y guardamos la conexión (no la base de datos entera) en una variable:
     // ('servidor, 'usuario', 'contraseña', 'nombre de la base de datos')
     $db = @mysqli_connect('localhost', 'root', '', 'melomaniac');
+    // Establecemos el cotejamiento como el de la base de datos para que guarde correctamente
+    // los caracteres acentuados:
+    @mysqli_set_charset($db, 'utf8');
     // Utilizamos el carácter @ para no mostrar las alertas generadas por las funciones en caso de error.
 
-    // En caso de que algún parámetro esté mal y no se pueda conectar a la base de datos, mostrar
-    // un mensaje al usuario "Contacte con el administrador" blablabla
-
     // Instrucción que le vamos a mandar a la base de datos para dar de alta al usuario:
-    // ENCRIPTAR CONTRASEÑA
-    $sql_add_user = "INSERT INTO users(name, email, username, password) VALUES ('$name', '$email', '$username', '$password')";
+    $encryptedpassword = password_hash($password, PASSWORD_DEFAULT);
+    $sql_add_user = "INSERT INTO users(name, email, username, password, music, age) VALUES ('$name', '$email', '$username', '$encryptedpassword', '$music', '$age')";
 
     // Realizamos la consulta en la base de datos (mandamos la instrucción anterior) y nos va a devolver
     // si se ha completado (entonces devuelve la consulta), y si no devuelve NULL:
@@ -28,10 +30,10 @@
         $_SESSION['username'] = $username;
 
         // La función header nos redirige a la página de inicio:
-        header('Location: home.php');
+        header('Location: ../index.php');
     }
     else {
-        header('Location: ../src/signup_form.php?error=error_signup');
+        header('Location: ../signup.php?error=error_signup');
     }
 
     // Cerramos la conexión por seguridad, y si necesitamos volver a abrirla para enviar un mensaje, se abre:

@@ -43,23 +43,23 @@
             </div>
 
             <div class = "row">
-        		<form action="login_submit.php" method="POST" id="form-login">
+        		<form action="queries/login.php" method="POST" id="form-login">
         			<h2>Welcome to Melomaniac!</h2>
         			<div class="input-group">
-        				<span class="input-group-addon"><i class="icon glyphicon glyphicon-user"></i></span>
+        				<span class="input-group-addon"><i class="small-icon glyphicon glyphicon-user"></i></span>
         				<input type="text" placeholder="Username" name="username" id="username">
         			</div>
         			<br>
 
         			<div class="input-group">
-        				<span class="input-group-addon"><i class="icon glyphicon glyphicon-lock"></i></span>
+        				<span class="input-group-addon"><i class="small-icon glyphicon glyphicon-lock"></i></span>
         				<input type="password" placeholder="Password" name="password" id="password">
         			</div>
         			<br>
 
         			<input type="submit" value="Log In">
         			<br>
-        			<p align="center">Are you new at Melomaniac?<br><a class="signup" href="signup_form.php">Sign Up</a></p>
+        			<p align="center">Are you new at Melomaniac?<br><a class="signup" href="signup.php">Sign Up</a></p>
         		</form>
             </div>
         </div>
