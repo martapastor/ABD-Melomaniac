@@ -4,65 +4,81 @@
 
 * {
   font-family: 'Actor';
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(0, 0, 0, 1);
   cursor: default;
 }
 
-body,
-html {
+body, html {
   height: 100%;
   margin: 0;
 }
 
 body {
     background-image: url("../img/piano.jpg");
-    background-size: 100%;
     background-color: #e6e6e6;
+    background-size: 100%;
     display: flex;
-    padding: 0px;
-    margin: 0px;
     width: 100%;
     height: 100%;
+    padding: 0px;
+    margin: 0px;
 }
 
-/**/
+/*Header 1*/
+h1 {
+
+}
+
+/*Header 2*/
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Actor' !important;
+  color: rgba(255, 0, 128, 1) !important;
+}
+
+/*Logo and icons style of different sizes*/
 .logo {
-    max-width: 800px;
+    position: inherit;
+    max-width: 830px;
     margin: 20px;
 }
 
 .small-logo {
-  max-width: 500px;
+    z-index: 200;
+    max-width: 500px;
 }
 
-.icon {
-    color: rgba(0, 0, 0, 0.6);
+.small-icon {
+    z-index: 0;
+    color: rgba(0, 0, 0, 1);
     font-size: 12px;
 }
 
+.medium-icon {
+    z-index: 0;
+    font-size: 22px;
+}
+
 .alert {
-    max-width: 500px;
+    max-width: 830px;
     margin: 20px;
     border-radius: 10px;
     text-align: center;
 }
 
+/*Main Window buttons to login or register when user is not logged in yet*/
 .index-button {
   background: linear-gradient(#ff99cc, #ff0080);
-  color: white;
-  opacity: 0.8;
   width: 400px;
   height: 100px;
   margin: 20px;
-  border-radius: 10px;
   border: 0px;
+  border-radius: 10px;
+  color: white;
   text-align: center;
   font-size: 64px;
   cursor: pointer;
-}
-
-.index-button-text {
-    color: white;
 }
 
 .index-button-text:hover {
@@ -75,84 +91,133 @@ body {
     Main Page Style
 **********************/
 
-#sidebar-wrapper {
-    z-index: 1000;
-    position: fixed;
-    left: 250px;
-    width: 200px;
-    height: 100%;
-    margin-left: -250px;
-    overflow-y: auto;
-    background: #000;
-}
-
-.sidebar-nav {
+.logout-button {
     position: absolute;
-    top: 0;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.sidebar-nav li {
-    width: 200px;
-    text-indent: 20px;
-    line-height: 60px;
-}
-
-.sidebar-nav li a {
-    display: block;
+    margin: 10px;
+    right: 0;
+    font-size: 20px;
+    font-weight: bold;
     text-decoration: none;
-    color: #999999;
+    color: white;
+    cursor: inherit;
+}
+
+.logout-button a {
     cursor: pointer;
 }
 
-.sidebar-nav li a:hover {
-    text-decoration: none;
-    color: #fff;
-    background: rgba(255,255,255,0.2);
+.logout-button a:hover, .logout-button a:focus {
+  text-decoration: none;
+  color: rgba(255, 0, 128, 1);
 }
 
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-    text-decoration: none;
+/*W3Schools Library Styles*/
+.w3-sidebar {
+    position: absolute;
+    z-index: 100;
+    width: 200px;
+    height: 100%;
+    left: 0px;
+    top: 0;
+    padding: 0;
+    margin: 0;
+    background-color: rgba(102, 102, 102, 1) !important;
 }
 
-.inbox {
+.w3-button:hover, .w3-button:focus {
+    text-decoration: none;
+    color: rgba(255, 0, 128, 1);
+}
+
+.fa {
+  float: right;
+}
+
+/*Main Window Styles for messages inbox and groups list*/
+.pink-title {
+  padding-left: 20px;
+  text-align: left;
+}
+
+.dark-gray-box {
+  max-width: 540px;
   width: 100%;
-  max-width: 500px;
-  margin: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 50px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: auto;
+  padding: 20px;
+  background: rgba(102, 102, 102, 1);
   border-radius: 10px;
+}
+
+.light-gray-box {
+  display: block;
+  max-width: 460px;
+  width: 100%;
+  padding: 20px;
+  margin: 20px;
+  margin-bottom: 20px;
+  background: rgba(204, 204, 204, 1);
+  border-radius: 10px;
+}
+
+/*Message text style*/
+.message-subject {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: justify;
+}
+
+.message-body {
+  font-size: 14px;
+  text-align: justify;
+}
+
+/*New message gray button style*/
+#new-message-button {
+  background: rgba(204, 204, 204, 1);
+  float: right;
+  margin-top: 0;
+  margin-right: 0;
+  padding: 8px;
+  margin-right: 15px;
+  align-self: flex-end;
+  font-size: 16px;
+  border-radius: 15px;
+  border: 0;
+  cursor: pointer;
 }
 
 /**********************
     Forms Style
 **********************/
 
-/*Form container*/
+/*Form container for deleting messages or showing groups*/
 form {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/*Form container when sending message or logging in*/
+.input-form {
     width: 100%;
     max-width: 500px;
     margin: 20px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(204, 204, 204, 1);
     padding: 50px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 1);
     border-radius: 10px;
 }
 
-/*Header 1*/
-h1 {
-
-}
-
-/*Header 2*/
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: rgba(255, 255, 255, 0.6);
+/*Dropdown selection*/
+select {
+  display: block;
+  padding: 10px;
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+  color: gray;
+  border: 1px solid #ccc;
+  cursor: text;
 }
 
 /*Text field*/
@@ -160,14 +225,14 @@ input {
     display: block;
     padding: 10px;
     width: 100%;
-    height: auto;
+    height: 40px;
     font-size: 16px;
-    color: rgba(0, 0, 0, 0.6);
-    border: 0px;
+    color: rgba(0, 0, 0, 1);
+    border: 1px solid #ccc;
     cursor: text;
 }
 
-/*Submit form button*/
+/*Submit form button styles*/
 input[type="submit"] {
   background: linear-gradient(#ff99cc, #ff0080);
   color: white;
@@ -181,23 +246,63 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-/*Locating mouse over the submit form button*/
 input[type="submit"]:hover {
   opacity: 1;
 }
 
-/*Precise moment when we click the submit form button*/
 input[type="submit"]:active {
   transform: scale(0.95);
 }
 
-/*Sign Up link*/
-.signup {
-    color: white;
+/*Style for any button that redirects to PHP queries*/
+input[type="submit"] .php-button {
+  float: right;
+  margin-top: 0;
+  margin-right: 0;
+  padding: 8px;
+  align-self: flex-end;
+  font-size: 12px;
+  border-radius: 15px;
+  border: 0;
+  cursor: pointer;
 }
 
-/*Locating mouse over the Sign Up link*/
-.signup:hover {
-    color: #ff3399;
+input[type="date"] {
+  color: gray;
+}
+
+/*Message text area*/
+#message {
+  width: 100%;
+  height: 400%;
+}
+
+/**********************
+    Modal Box Style
+**********************/
+.modal {
+    position: fixed;
+    display: none; /* Hidden by default */
+    z-index: 100;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-box-content {
+    min-width: 400px;
+    width: 30%;
+    padding: 35px;
+    margin: 40px auto;
+}
+
+.modal-close-button {
+    position: inherit;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
     cursor: pointer;
+}
+
+.modal-close-button:hover, .modal-close-button:focus {
+    color: rgba(255, 0, 128, 1);
 }
