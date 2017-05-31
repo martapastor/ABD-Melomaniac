@@ -29,7 +29,7 @@
         <div class="container-fluid">
             <?php
             // Iniciamos la conexión con la base de datos:
-            $db = @mysqli_connect('localhost','root','','melomaniac');
+            $db = @mysqli_connect('localhost','melomaniac','melomaniac','melomaniac');
 
             // Establecemos el cotejamiento como el de la base de datos para que muestre correctamente
             // los caracteres acentuados:
@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="dark-gray-box">
                             <!-- Modal box for new group-->
-                            <button onclick="document.getElementById('modal-new-message').style.display='block'" id = "new-message-button">
+                            <button onclick="document.getElementById('modal-new-message').style.display='block'" id="modal-box-button">
                                 Nuevo grupo</button>
 
                             <div id="modal-new-message" class="modal">
@@ -99,7 +99,7 @@
                             </div>
                             <!-- End of modal box -->
 
-                            <h2 id="pink-title">Lista de grupos</h2>
+                            <h2 class="pink-title">Lista de grupos</h2>
                             <?php
                             // Consulta para mostrar todos los grupos que existen en la base de datos.
                             // Un grupo existe si hay una fila creada para el mismo en la tabla groups.

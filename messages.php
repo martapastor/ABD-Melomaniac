@@ -29,7 +29,7 @@
         <div class="container-fluid">
             <?php
             // Iniciamos la conexión con la base de datos:
-            $db = @mysqli_connect('localhost','root','','melomaniac');
+            $db = @mysqli_connect('localhost','melomaniac','melomaniac','melomaniac');
 
             // Establecemos el cotejamiento como el de la base de datos para que muestre correctamente
             // los caracteres acentuados:
@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="dark-gray-box">
                             <!-- Modal box for new message-->
-                            <button onclick="document.getElementById('modal-new-message').style.display='block'" id = "new-message-button">
+                            <button onclick="document.getElementById('modal-new-message').style.display='block'" id="modal-box-button">
                                 Nuevo mensaje</button>
 
                             <div id="modal-new-message" class="modal">
@@ -94,14 +94,14 @@
                             if(!isset($_GET['type'])) { ?>
                                 <h2 class="pink-title">Mis mensajes personales</h2>
 
-                                <div class = "light-gray-box">
-                                    <form action="messages.php?type=received" method="POST" id="get-method">
+                                <div class="light-gray-box">
+                                    <form action="messages.php?type=received" method="POST">
                                         <input type="submit" class="php-button" id="show-groupmessages-button" value="Ver mensajes recibidos"/>
                                     </form>
                                 </div>
 
-                                <div class = "light-gray-box">
-                                    <form action="messages.php?type=sent" method="POST" id="get-method">
+                                <div class="light-gray-box">
+                                    <form action="messages.php?type=sent" method="POST">
                                         <input type="submit" class="php-button" id="show-groupmessages-button" value="Ver mensajes enviados"/>
                                     </form>
                                 </div>

@@ -28,26 +28,30 @@
     <body>
         <div class="w3-sidebar w3-bar-block">
             <a href="index.php" class="w3-bar-item w3-button">Inicio</a>
-              <div class="w3-dropdown-hover">
+            <br>
+
+            <div class="w3-dropdown-hover">
                 <button class="w3-button">Mis mensajes<i class="fa fa-chevron-down"></i></button>
 
                 <div class="w3-dropdown-content w3-bar-block">
                   <a href="messages.php?type=received" class="w3-bar-item w3-button">Recibidos</a>
                   <a href="messages.php?type=sent" class="w3-bar-item w3-button">Enviados</a>
                 </div>
-              </div>
+            </div>
+            <br>
+            <br>
 
-              <a href="groups.php" class="w3-bar-item w3-button">Mis grupos</a>
-              <a href="profile.php" class="w3-bar-item w3-button">Mi perfil</a>
-              <a href="about.php" class="w3-bar-item w3-button">Ayuda</a>
+            <a href="groups.php" class="w3-bar-item w3-button">Mis grupos</a>
+            <br>
+            
+            <a href="profile.php" class="w3-bar-item w3-button">Mi perfil</a>
+            <br>
+            <br>
 
-              <br>
-              <br>
-
-              <?php
-              if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['admin']) && $_SESSION['admin']){ ?>
-                  <a href="admin.php" class="w3-bar-item w3-button">Administración</a>
-              <?php } ?>
+            <?php
+            if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['admin']) && $_SESSION['admin']){ ?>
+                <a href="admin.php" class="w3-bar-item w3-button">Administración</a>
+            <?php } ?>
         </div>
     </body>
 </html>

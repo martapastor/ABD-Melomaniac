@@ -29,7 +29,7 @@
         <div class="container-fluid">
             <?php
             // Iniciamos la conexión con la base de datos:
-            $db = @mysqli_connect('localhost','root','','melomaniac');
+            $db = @mysqli_connect('localhost','melomaniac','melomaniac','melomaniac');
 
             // Establecemos el cotejamiento como el de la base de datos para que muestre correctamente
             // los caracteres acentuados:
@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="dark-gray-box">
                             <!-- Modal box for new message-->
-                            <button onclick="document.getElementById('modal-new-message').style.display='block'" id = "new-message-button">
+                            <button onclick="document.getElementById('modal-new-message').style.display='block'" id="modal-box-button">
                                 Nuevo mensaje</button>
 
                             <div id="modal-new-message" class="modal">
@@ -151,6 +151,18 @@
                            Por favor, inténtelo de nuevo.
                        </div>
                    </div>
+                <?php }
+
+                // Si al intentar registrar un nuevo usuario, el username ya existe en la base de datos,
+                // se redirecciona al usuario a esta página y se le muestra un mensaje:
+                if(isset($_GET['error']) && $_GET['error'] == "username_exist") { ?>
+                   <div class = "row">
+                       <div class = "alert alert-danger">
+                           El nombre de usuario ya existe.
+                           <br>
+                           Por favor, escoja otro nombre.
+                       </div>
+                   </div>
                 <?php } ?>
 
                 <div class="row">
@@ -183,7 +195,7 @@
                     </div>
 
                     <div id="modal-signup" class="modal">
-                        <form action="php/signup.php" method="POST" class="input-form modal-box-content" id="form-signup">
+                        <form action="php/signup.php" method="POST" onsubmit="return validateSignupForm();" class="input-form modal-box-content" id="form-signup">
                             <span onclick="document.getElementById('modal-signup').style.display='none'" class="modal-close-button" title="Close Modal">&times;</span>
 
                             <h2>Welcome to Melomaniac!</h2>
@@ -250,4 +262,15 @@
         // Cerramos la conexión por seguridad:
         @mysqli_close($db); ?>
     </body>
+
+    <script type="application/javascript">
+		validemail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		document.getElementById('email').addEventListener("change", function () {
+			if (!validemail.test(this.value)) {
+				document.getElementById('email').style.border = "2px solid red";
+			} else {
+				document.getElementById('email').style.border = "2px solid green";
+			}
+		}, false);
+	</script>
 </html>

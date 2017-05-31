@@ -29,7 +29,7 @@
         <div class="container-fluid">
             <?php
             // Iniciamos la conexión con la base de datos:
-            $db = @mysqli_connect('localhost','root','','melomaniac');
+            $db = @mysqli_connect('localhost','melomaniac','melomaniac','melomaniac');
 
             // Establecemos el cotejamiento como el de la base de datos para que muestre correctamente
             // los caracteres acentuados:
@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="dark-gray-box">
                             <!-- Modal box for new message-->
-                            <button onclick="document.getElementById('modal-new-message').style.display='block'" id="new-message-button">
+                            <button onclick="document.getElementById('modal-new-message').style.display='block'" id="modal-box-button">
                                 Nuevo mensaje</button>
 
                             <div id="modal-new-message" class="modal">
@@ -88,72 +88,86 @@
                             <!-- End of modal box -->
 
                             <?php
-                            // Si el usuario quiere mostrar los mensajes de un grupo, la petición GET le redirecciona:
-                            if(isset($_GET['group'])) { ?>
-                                <h2 class="pink-title">Mensajes en <?php echo $_GET['group'] ?> </h2>
-                                <?php
+                            // Si el usuario quiere mostrar los mensajes de un grupo, la petición GET le redirecciona.
+                            if(isset($_GET['group'])) {
+                                // Comprobamos que ese usuario efectivamente tiene acceso a ese grupo:
+
                                 // Guardamos la variable global con el username del usuario actualmente logueado
                                 // y del grupo del que queremos ver los mensajes por comodidad:
                                 $current_user = $_SESSION['username'];
                                 $current_group = htmlentities($_GET['group']);
 
-                                // Consulta para mostrar todos los mensajes de un grupo concreto de la base de datos.
-                                // Un mensaje se considera de un grupo concreto cuando el campo group_recipient de la tabla groupmessages
-                                // coincide con el nombre del grupo actual que hemos guardado en la variable &current_group.
-                                $sql_get_messages = "SELECT * FROM groupmessages JOIN usergroups ON groupmessages.group_recipient=usergroups.groupname
-                                WHERE usergroups.username='$current_user' AND usergroups.groupname='$current_group'ORDER BY id DESC";
-                                $query_get_messages = mysqli_query($db, $sql_get_messages);
-                                $object_message = mysqli_fetch_object($query_get_messages);
+                                $sql_user_in_group = "SELECT * FROM users JOIN usergroups ON users.username=usergroups.username
+                                WHERE usergroups.username='$current_user' AND usergroups.groupname='$current_group'";
+                                $query_user_in_group = mysqli_query($db, $sql_user_in_group);
+                                $object_user = mysqli_fetch_object($query_user_in_group);
 
-                                if ($object_message == null) {?>
-                                    <div class="light-gray-box">
-                                        No hay mensajes para mostrar.
+                                if ($object_user != NULL) { ?>
+                                    <h2 class="pink-title">Mensajes en <?php echo $_GET['group'] ?> </h2>
+                                    <?php
+                                    // Consulta para mostrar todos los mensajes de un grupo concreto de la base de datos.
+                                    // Un mensaje se considera de un grupo concreto cuando el campo group_recipient de la tabla groupmessages
+                                    // coincide con el nombre del grupo actual que hemos guardado en la variable &current_group.
+                                    $sql_get_messages = "SELECT * FROM groupmessages JOIN usergroups ON groupmessages.group_recipient=usergroups.groupname
+                                    WHERE usergroups.username='$current_user' AND usergroups.groupname='$current_group'ORDER BY id DESC";
+                                    $query_get_messages = mysqli_query($db, $sql_get_messages);
+                                    $object_message = mysqli_fetch_object($query_get_messages);
+
+                                    if ($object_message == null) {?>
+                                        <div class="light-gray-box">
+                                            No hay mensajes para mostrar.
+                                        </div>
+                                    <?php }
+
+                                    while ($object_message != null) { ?>
+                                        <div class="light-gray-box">
+                                            <?php
+                                            // Consulta para mostar el remitente del mensaje con el nombre completo, no con el username.
+                                            // Empleando el username del campo sender de la tabla messages, obtenemos el nombre completado
+                                            // del campo name de la tabla users.
+                                            $sql_get_complete_name = "SELECT name FROM users WHERE username='$object_message->sender'";
+                                            $query_get_complete_name = mysqli_query($db, $sql_get_complete_name);
+                                            $object_sender = mysqli_fetch_object($query_get_complete_name); ?>
+
+                                            Remitente: <?php echo $object_sender->name ?>
+                                            <br>
+                                            Fecha: <?php echo $object_message->id ?>
+                                            <br>
+                                            <br>
+                                            <span class="message-subject"> Asunto: <?php echo $object_message->subject ?> </span>
+                                            <br>
+                                            <br>
+                                            <span class="message-body"> <?php echo html_entity_decode($object_message->body) ?></span>
+                                            <br>
+                                            <br>
+                                            <?php
+                                            if (isset($_SESSION['login']) && $_SESSION['login'] && $_SESSION['username'] == $object_message->sender) {
+                                                // Empleamos un formulario para enviar vía POST el id del mensaje en concreto que queremos borrar.
+                                                // Necesitamos hacerlo de esta forma ya que al cargar los mensajes con un loop while, necesitas que el
+                                                // id de cada mensaje se guarde en una variable para poder luego borrarlo al hacer click en el botón.
+                                                // Si empleáramos un #id para guardar esa información, sólo se nos guardaría del último mensaje cargado,
+                                                // ya que los #id deben ser únicos en cada página. ?>
+                                                <form action="php/deletegroupmessage.php" method="POST" id="get-method">
+                                                    <input type="hidden" id="message-id" name="id" value="<?php echo $object_message->id ?>" />
+                                                    <input type="submit" class="php-button" id="delete-groupmessages-button" value="Eliminar mensaje"/>
+                                                </form>
+                                            <?php } ?>
+                                        </div>
+                                        <?php
+                                        $object_message = mysqli_fetch_object($query_get_messages);
+                                    }
+
+                                    // Empleamos un formulario para recargar vía POST la vista principal con todos los grupos. ?>
+                                    <form action="groups.php" method="POST">
+                                        <input type="submit" class="php-button" value="Volver a grupos"/>
+                                    </form>
+                                <?php } else { ?>
+                                    <h2 class="pink-title">Acceso denegado</h2>
+                                    <div class = "alert alert-danger">
+                                        No está autorizado para ver los mensajes del grupo <?php echo $current_group ?>.
                                     </div>
                                 <?php }
-
-                                while ($object_message != null) {?>
-                                    <div class="light-gray-box">
-                                        <?php
-                                        // Consulta para mostar el remitente del mensaje con el nombre completo, no con el username.
-                                        // Empleando el username del campo sender de la tabla messages, obtenemos el nombre completado
-                                        // del campo name de la tabla users.
-                                        $sql_get_complete_name = "SELECT name FROM users WHERE username='$object_message->sender'";
-                                        $query_get_complete_name = mysqli_query($db, $sql_get_complete_name);
-                                        $object_sender = mysqli_fetch_object($query_get_complete_name); ?>
-
-                                        Remitente: <?php echo $object_sender->name ?>
-                                        <br>
-                                        Fecha: <?php echo $object_message->id ?>
-                                        <br>
-                                        <br>
-                                        <span class="message-subject"> Asunto: <?php echo $object_message->subject ?> </span>
-                                        <br>
-                                        <br>
-                                        <span class="message-body"> <?php echo html_entity_decode($object_message->body) ?></span>
-                                        <br>
-                                        <br>
-                                        <?php
-                                        if (isset($_SESSION['login']) && $_SESSION['login'] && $_SESSION['username'] == $object_message->sender) {
-                                            // Empleamos un formulario para enviar vía POST el id del mensaje en concreto que queremos borrar.
-                                            // Necesitamos hacerlo de esta forma ya que al cargar los mensajes con un loop while, necesitas que el
-                                            // id de cada mensaje se guarde en una variable para poder luego borrarlo al hacer click en el botón.
-                                            // Si empleáramos un #id para guardar esa información, sólo se nos guardaría del último mensaje cargado,
-                                            // ya que los #id deben ser únicos en cada página. ?>
-                                            <form action="php/deletegroupmessage.php" method="POST" id="get-method">
-                                                <input type="hidden" id="message-id" name="id" value="<?php echo $object_message->id ?>" />
-                                                <input type="submit" class="php-button" id="delete-groupmessages-button" value="Eliminar mensaje"/>
-                                            </form>
-                                        <?php } ?>
-                                    </div>
-                                    <?php
-                                    $object_message = mysqli_fetch_object($query_get_messages);
-                                }
-
-                                // Empleamos un formulario para recargar vía POST la vista principal con todos los grupos. ?>
-                                <form action="groups.php" method="POST">
-                                    <input type="submit" class="php-button" value="Volver a grupos"/>
-                                </form>
-                            <?php } else { ?>
+                            } else { ?>
                                 <h2 class="pink-title">Mis grupos</h2>
                                 <?php
                                 // Guardamos la variable global con el username del usuario actualmente logueado por comodidad:
@@ -166,13 +180,13 @@
                                 $query_show_groups = mysqli_query($db, $sql_show_groups);
                                 $object_groups = mysqli_fetch_object($query_show_groups);
 
-                                if ($object_groups == NULL) {?>
+                                if ($object_groups == NULL) { ?>
                                     <div class="light-gray-box">
                                         No hay grupos para mostrar.
                                     </div>
                                 <?php }
 
-                                while ($object_groups != NULL) {?>
+                                while ($object_groups != NULL) { ?>
                                     <div class="light-gray-box">
                                         Nombre: <?php echo $object_groups->name ?>
                                         <br>
