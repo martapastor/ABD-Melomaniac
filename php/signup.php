@@ -15,41 +15,53 @@
     @mysqli_set_charset($db, 'utf8');
     // Utilizamos el carácter @ para no mostrar las alertas generadas por las funciones en caso de error.
 
-    // Encriptamos la contraseña con un hash para no guardarla como texto plano en la base de datos:
-    $encryptedpassword = password_hash($password, PASSWORD_DEFAULT);
+    // Consulta para comprobar que no existe un usuario con ese username ya en la base de datos.
+    $sql_check_username = "SELECT * FROM users WHERE username='$username'";
+    $query_check_username = mysqli_query($db, $sql_check_username);
+    $user = mysqli_fetch_object($query_check_username);
 
-    // Consulta para añadir un usuario a la tabla users de la base de datos.
-    $sql_add_user = "INSERT INTO users(name, email, username, password, music, age) VALUES ('$name', '$email', '$username', '$encryptedpassword', '$music', '$age')";
-    $query_add_user = mysqli_query($db, $sql_add_user);
+    if ($user == NULL) {
+        // Encriptamos la contraseña con un hash para no guardarla como texto plano en la base de datos:
+        $encryptedpassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // Consulta para añadir directamente las relaciones de el usuario que se acaba de dar de alta
-    // con los grupos a los que pertenece según gusto musical y rango de edad.
-    $sql_usergroup = "SELECT * FROM groups WHERE groups.music='$music' AND groups.min_age <= TIMESTAMPDIFF(YEAR, '$age', CURDATE()) AND groups.max_age >= TIMESTAMPDIFF(YEAR, '$age', CURDATE())";
-    $query_usergroup = mysqli_query($db, $sql_usergroup);
-    $group = mysqli_fetch_object($query_usergroup);
+        // Consulta para añadir un usuario a la tabla users de la base de datos.
+        $sql_add_user = "INSERT INTO users(name, email, username, password, music, age) VALUES ('$name', '$email', '$username', '$encryptedpassword', '$music', '$age')";
+        $query_add_user = mysqli_query($db, $sql_add_user);
 
-    while ($group != NULL) {
-        // Anadimos a la tabla usergroups una relación de los grupos a los que pertenece cada usuario:
-        $sql_add_users = "INSERT INTO usergroups(username, groupname) VALUES ('$username', '$group->name')";
-        $query_add_users = mysqli_query($db, $sql_add_users);
-
+        // Consulta para añadir directamente las relaciones de el usuario que se acaba de dar de alta
+        // con los grupos a los que pertenece según gusto musical y rango de edad.
+        $sql_usergroup = "SELECT * FROM groups WHERE groups.music='$music'
+            AND groups.min_age <= TIMESTAMPDIFF(YEAR, '$age', CURDATE())
+            AND groups.max_age >= TIMESTAMPDIFF(YEAR, '$age', CURDATE())";
+        $query_usergroup = mysqli_query($db, $sql_usergroup);
         $group = mysqli_fetch_object($query_usergroup);
-    }
 
-    // Comprobamos si efectivamente se ha podido dar de alta al usuario antes de iniciarle la sesión:
-    if ($query_add_user != null) {
-        // Iniciamos la sesión:
-        session_start();
-        $_SESSION['login'] = true;
-		$_SESSION['admin'] = false;
-        $_SESSION['username'] = $username;
+        while ($group != NULL) {
+            // Anadimos a la tabla usergroups una relación de los grupos a los que pertenece cada usuario:
+            $sql_add_users = "INSERT INTO usergroups(username, groupname) VALUES ('$username', '$group->name')";
+            $query_add_users = mysqli_query($db, $sql_add_users);
 
-        // La función header nos redirige a la página de inicio:
-        header('Location: ../index.php');
-    }
-    else {
+            $group = mysqli_fetch_object($query_usergroup);
+        }
+
+        // Comprobamos si efectivamente se ha podido dar de alta al usuario antes de iniciarle la sesión:
+        if ($query_add_user != null) {
+            // Iniciamos la sesión:
+            session_start();
+            $_SESSION['login'] = true;
+    		$_SESSION['admin'] = false;
+            $_SESSION['username'] = $username;
+
+            // La función header nos redirige a la página de inicio:
+            header('Location: ../index.php');
+        }
+        else {
+            // En caso de error, se devuelve un error de tipo error_signup.
+            header('Location: ../index.php?error=error_signup');
+        }
+    } else {
         // En caso de error, se devuelve un error de tipo error_signup.
-        header('Location: ../index.php?error=error_signup');
+        header('Location: ../index.php?error=username_exist');
     }
 
     // Cerramos la conexión por seguridad:

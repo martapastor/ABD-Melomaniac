@@ -34,7 +34,7 @@
         }
     }
 
-    // Cerramos la conexión por seguridad, y si necesitamos volver a abrirla para enviar un mensaje, se abre:
+    // Cerramos la conexión por seguridad:
     @mysqli_close($db);
 
     header('Location: ../messages.php');
