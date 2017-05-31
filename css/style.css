@@ -172,7 +172,7 @@ h2 {
 }
 
 /*New message gray button style*/
-#new-message-button {
+#modal-box-button {
   background: rgba(204, 204, 204, 1);
   float: right;
   margin-top: 0;
