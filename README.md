@@ -5,7 +5,7 @@ El objetivo de la práctica es la constucción de un sitio web de mensajería pa
 ## Nivel 1
 * Acceso al sitio web mediante usuario y contraseña.
 * Tipo de envío: de uno a todos.
-* Cuando el usuario entre en la aplicacio ́n el usuario debe leer todos los mensajes enviados. E ́l tambi ́en puede enviar mensajes.
+* Cuando el usuario entre en la aplicacio ́n el usuario debe leer todos los mensajes enviados. Él tambien puede enviar mensajes.
 
 ## Nivel 2
 * Tipo de envío: de uno a otro (mensaje personal).
