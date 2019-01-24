@@ -1,5 +1,11 @@
 # ABD-Melomaniac
 
+<p align="center">
+  <span>Language:</span> 
+  <a href="https://github.com/martapastor/ABD-Melomaniac">Español</a> |
+  <a href="https://github.com/martapastor/ABD-Melomaniac/blob/master/english.md">English</a> 
+</p>
+
 El objetivo de la práctica es la constucción de un sitio web de mensajería para melómanos. Son posibles varios niveles de especificación:
 
 ## Nivel 1
